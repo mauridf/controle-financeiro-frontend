@@ -46,16 +46,23 @@ function MenuLateral() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <IconButton onClick={toggleDrawer} sx={{ marginRight: 2 }}>
+      {/* Ícone para alternar o menu */}
+      <IconButton onClick={toggleDrawer} sx={{ marginLeft: 1, position: 'fixed', top: 16 }}>
         <MenuIcon />
       </IconButton>
+
       <Drawer
         variant="permanent"
         open={open}
         sx={{
           width: open ? 240 : 60,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: open ? 240 : 60, boxSizing: 'border-box' },
+          transition: 'width 0.3s',
+          [`& .MuiDrawer-paper`]: {
+            width: open ? 240 : 60,
+            boxSizing: 'border-box',
+            transition: 'width 0.3s',
+          },
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
@@ -71,14 +78,14 @@ function MenuLateral() {
         </Box>
         <Divider />
         <List>
-          <ListItem button onClick={() => navigate('/dashboard')}>
+          <ListItem button={true} onClick={() => navigate('/dashboard')}>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
             {open && <ListItemText primary="Dashboard" />}
           </ListItem>
 
-          <ListItem button onClick={toggleExpand}>
+          <ListItem button={true} onClick={toggleExpand}>
             <ListItemIcon>
               {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </ListItemIcon>
@@ -87,19 +94,19 @@ function MenuLateral() {
 
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button onClick={() => navigate('/creditos')}>
+              <ListItem button={true} onClick={() => navigate('/creditos')}>
                 <ListItemIcon>
                   <CreditCardIcon />
                 </ListItemIcon>
                 {open && <ListItemText primary="Créditos" />}
               </ListItem>
-              <ListItem button onClick={() => navigate('/debitos')}>
+              <ListItem button={true} onClick={() => navigate('/debitos')}>
                 <ListItemIcon>
                   <AttachMoneyIcon />
                 </ListItemIcon>
                 {open && <ListItemText primary="Débitos" />}
               </ListItem>
-              <ListItem button onClick={() => navigate('/reservas')}>
+              <ListItem button={true} onClick={() => navigate('/reservas')}>
                 <ListItemIcon>
                   <BookIcon />
                 </ListItemIcon>
@@ -109,7 +116,7 @@ function MenuLateral() {
           </Collapse>
 
           <Divider />
-          <ListItem button onClick={handleLogout}>
+          <ListItem button={true} onClick={handleLogout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

@@ -13,15 +13,30 @@ function LoginPage() {
     setError('');
 
     try {
+      // Faz a requisição de login
       const response = await axios.post(endpoints.login, {
         email: email,
         senhaHash: senhaHash,
       });
 
-      // Armazena o token e as informações do usuário no localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('nome', response.data.nome); // Adiciona o nome do usuário
-      localStorage.setItem('email', email); // Adiciona o e-mail do usuário
+      // Armazena o token no localStorage
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+
+      // Faz a requisição para buscar as informações do usuário
+      const userResponse = await axios.get(`${endpoints.usuario}/${email}`, {
+        headers: {
+          Authorization: `Bearer ${token}` // Inclui o token no cabeçalho da requisição
+        }
+      });
+
+      // Verifique a estrutura do userResponse para encontrar o ID correto
+      console.log(userResponse.data); // Verifique a estrutura do retorno
+
+      // Armazena as informações do usuário no localStorage
+      localStorage.setItem('nome', userResponse.data.nome); // Nome do usuário
+      localStorage.setItem('email', email); // E-mail do usuário
+      localStorage.setItem('id', userResponse.data.id);
 
       // Redireciona para a página de dashboard
       window.location.href = '/dashboard';
